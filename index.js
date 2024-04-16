@@ -6,12 +6,12 @@ function addNewBeverageOrder()
     orderCounts++;
     const orders = document.getElementsByTagName('fieldset');
     const form = orders[orders.length - 1];
-    const newForm = document.createElement('fieldset');
-    newForm.innerHTML = form.innerHTML.replace(/milk(?:\d+)?/g, `milk${count}`);
-    newForm.querySelector('.beverage-count').textContent = `Напиток №${++count}`;
-    newForm.className = 'beverage';
-    newForm.querySelector('.delete-button').addEventListener('click', (event) => deleteOrder(event));
-    form.insertAdjacentElement("afterend", newForm);
+    const newFormField = document.createElement('fieldset');
+    newFormField.className = 'beverage';
+    newFormField.innerHTML = form.innerHTML.replace(/milk(?:\d+)?/g, `milk${count}`);
+    newFormField.querySelector('.beverage-count').textContent = `Напиток №${++count}`;
+    newFormField.querySelector('.delete-button').addEventListener('click', (event) => deleteOrder(event));
+    form.insertAdjacentElement("afterend", newFormField);
 }
 
 function deleteOrder(event){
@@ -66,15 +66,15 @@ document.querySelector('.submit-button').addEventListener('click', (event)  =>{
         'корицу': 'корица',
         'шоколад': 'шоколад'
     };
-    orders.forEach((beverage) => {
-        let selectedMilk = beverage.querySelector(`input[type="radio"]:checked`).nextElementSibling.textContent;
+    orders.forEach((checkbox) => {
+        let selectedMilk = checkbox.querySelector(`input[type="radio"]:checked`).nextElementSibling.textContent;
         const selectedMilkArr = selectedMilk.split(' ');
         selectedMilkArr[1] = 'молоко';
         selectedMilkArr[0] = selectedMilkArr[0].substring(0, selectedMilkArr[0].length-1) + 'е';
         selectedMilk = selectedMilkArr.join(" ");
 
         let selectedOptions = [];
-        beverage.querySelectorAll(`input[type="checkbox"]:checked`)
+        checkbox.querySelectorAll(`input[type="checkbox"]:checked`)
             .forEach((option) => {
             let optionText = option.nextElementSibling.textContent;
             selectedOptions.push(replacements[optionText]);
@@ -83,7 +83,7 @@ document.querySelector('.submit-button').addEventListener('click', (event)  =>{
         let cell1 = document.createElement('td');
         let cell2 = document.createElement('td');
         let cell3 = document.createElement('td');
-        cell1.textContent = beverage.querySelector('select').selectedOptions[0].text;
+        cell1.textContent = checkbox.querySelector('select').selectedOptions[0].text;
         cell2.textContent = selectedMilk;
         cell3.textContent = selectedOptions.join(', ');
         row.appendChild(cell1);
